@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Howler</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- PART 1: Navbar -->
+    <nav class="navbar sticky-top">
+        <h1 class="howler navbar-brand mb-2 text-white" onclick="window.location.href='/'">Howler</h1>
+        <div class="user-profile d-flex">
+            <span class="your-handle text-white"></span>
+            <img src="#" alt="Current User PFP" class="avatar">
+        </div>
+    </nav>
+
+    <main>
+        <!-- PART 2: The "What's Howling" box -->
+        <div class="whats-howling">
+            <div class="input-area">
+                <textarea type="textarea" class="howl-input" placeholder="What's howling?"></textarea>
+                <button class="howl-button">Howl</button>
+            </div>
+        </div>
+
+        <!-- PART 3: Howls -->
+        <!-- <div class="howl">
+            <div class="howl-header">
+                <img src="../static/images/student-pfp.jpg" alt="Student PFP" class="avatar">
+                <div class="user-info">
+                    <span class="name">Stu Dent</span>
+                    <span class="handle">@student</span>
+                </div>
+                <span class="time">Oct 1st, 10:30pm</span>
+            </div>
+            <p class="howl-message">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat.
+            </p>
+        </div> -->
+
+
+        <!-- container to contain all the howls -->
+        <!-- <div id="howls-container">
+            <template id="howl-template">
+                <div class="howl">
+                    <div class="howl-header">
+                        <img class="avatar">
+                        <div class="user-info">
+                            <span class="name"></span>
+                            <span class="handle"></span>
+                        </div>
+                        <span class="time"></span>
+                    </div>
+                    <p class="howl-message"></p>
+                </div>
+            </template>
+
+        </div> -->
+    </main>
+</body>
+<script src="../static/js/main.js"></script>
+
+</html>

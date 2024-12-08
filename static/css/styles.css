@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* background */
+body {
+    background-color: #eeeeee !important;
+}
+
+/* 600px container */
+main {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* howler navbar */
+.navbar {
+    background-color: #990001;
+    color: white;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-top: 15px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 'Howler' */
+.howler {
+    font-size: 28px !important;
+    font-weight: lighter;
+}
+
+/* @student and profile picture */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: -5px;
+}
+
+/* your username */
+.your-handle {
+    color: white;
+}
+
+.handle {
+    color: #666;
+}
+
+/* @student or @graduate */
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+/* Anything above this line is navbar stuff common in every file */
+
+
+
+
+
+
+/* the what's howling box */
+.whats-howling {
+    border: 2px solid #ddd;
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+/* input area for flex */
+.input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.howl-input {
+    border: 2px solid #ddd;
+    border-radius: 7px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    resize: none;
+}
+
+.howl-button {
+    align-self: flex-end;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.howl-button:hover {
+    background-color: rgb(65, 65, 65);
+}
+
+
+
+
+
+/* new posts/howls */
+.howl {
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.howl-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.user-info {
+    flex-grow: 1;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.time {
+    color: #666;
+    font-size: 14px;
+}
+
+.howl-message {
+    line-height: 1.5;
+}
+
+.user-profile:hover {
+    cursor: pointer;
+}
+
+.howl-header {
+    cursor: pointer;
+}
+
+.howler:hover {
+    cursor: pointer;
+}

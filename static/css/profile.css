@@ -1,0 +1,93 @@
+/* their username and follow button, flex */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px 0;
+}
+/* left side */
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+.profile-left-side {
+    display: flex;
+    flex-direction: column;
+}
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-handle {
+    color: #666;
+}
+
+/* follow button */
+.follow-button {
+    background-color: white;
+    border: 2px solid #ddd;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+.follow-button:hover {
+    background-color: #f4f4f4;
+}
+
+/* following list */
+.follows-section {
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    background-color: white;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.follows-header {
+    padding: 15px;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+}
+
+.follows-list {
+    padding: 15px;
+}
+
+/* an account */
+.follow-account {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.follow-account:hover {
+    cursor: pointer;
+}
+
+.follow-info {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 'Howls' header */
+.howls-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.user-profile:hover {
+    cursor: pointer;
+}
+.howl-header:hover {
+    cursor: pointer;
+}

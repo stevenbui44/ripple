@@ -1,0 +1,70 @@
+/* container for login */
+.login-container {
+    background-color: white;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 80px;
+
+}
+
+/* 'Log in' */
+.login-header {
+    font-size: 24px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* the form itself */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* username or password (label + input) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* username or password */
+input {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+input:focus {
+    outline: none;
+}
+
+/* login button */
+.login-button {
+    background-color: #990001;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 40px;
+}
+.login-button:hover {
+    background-color: #7a0001;
+}
+
+
+#errorMessage {
+    color: #ad0000;
+    text-align: center;
+    display: nonel
+}
