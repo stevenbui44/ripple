@@ -1,121 +1,71 @@
-document.addEventListener('DOMContentLoaded', () => {
+const Navbar = ({ currentUser }) => {
+    const username = currentUser ? currentUser.username : '';
+    const avatar = currentUser ? currentUser.avatar : '#';
 
-    // FUNCTION 1: Showing all howls
-    // howls:
-    // {
-    //     "id": 1,
-    //     "userId": 7,
-    //     "datetime": "2020-05-29T03:50:25Z",
-    //     "text": "Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat."
-    // },
-    // prepend: whether new howls get added to the TOP or BOTTOM
-    function displayHowls(howls, prepend) {
-        
-        // posting everything after whats-howling
-        const whatsHowling = document.querySelector('.whats-howling');
+    return (
+        <nav className="navbar sticky-top">
+            <h1 
+                className="howler navbar-brand mb-2 text-white" 
+                onClick={() => window.location.href='/'}
+            >
+                Howler
+            </h1>
+            <div 
+                className="user-profile d-flex"
+                onClick={() => window.location.href = `/user/${username}`}
+            >
+                <span className="your-handle text-white">@{username}</span>
+                <img src={avatar} alt="Current User PFP" className="avatar" />
+            </div>
+        </nav>
+    );
+};
 
-        // Function for when the Promise goes through each howl in howls
-        const processHowl = (howl) => {
-            return fetch(`/api/users/${howl.userId}`)
-                .then(response => response.json())
-                .then(user => {
-                    const howlTemplate = document.createElement('div');
-                    howlTemplate.className = 'howl';
-                    howlTemplate.innerHTML = `
-                        <div class="howl-header" onclick="window.location.href='/user/${user.username}'">
-                            <img src="${user.avatar}" alt="${user.username} PFP" class="avatar">
-                            <div class="user-info">
-                                <span class="name">${user.first_name} ${user.last_name}</span>
-                                <span class="handle">@${user.username}</span>
-                            </div>
-                            <span class="time">${formatDate(howl.datetime)}</span>
-                        </div>
-                        <p class="howl-message">${howl.text}</p>
-                    `;
-                    return howlTemplate;
-                });
-        };
+const WhatsHowling = ({ onNewHowl }) => {
+    const [howlText, setHowlText] = React.useState('');
 
-        // Process all howls and add them to the page
-        Promise.all(howls.map(processHowl))
-            .then(howlTemplates => {
+    const createHowl = () => {
+        const trimmedText = howlText.trim();
+        if (trimmedText === '') return;
 
-                // CASE ONE: Adding new howls at the TOP
-                if (prepend) {
-                    howlTemplates.forEach(element => {
-                        // if something after whatsHowling, put it before that
-                        if (whatsHowling.nextSibling) {
-                            whatsHowling.parentNode.insertBefore(element, whatsHowling.nextSibling);
-                        } 
-                        else {
-                            whatsHowling.parentNode.appendChild(element);
-                        }
-                    });
-                } 
-                // CASE TWO: Adding existing howls to the BOTTOM
-                else {
-                    // Add all howls after the "What's howling" box
-                    howlTemplates.reverse().forEach(element => {
-                        if (whatsHowling.nextSibling) {
-                            whatsHowling.parentNode.insertBefore(element, whatsHowling.nextSibling);
-                        } 
-                        else {
-                            whatsHowling.parentNode.appendChild(element);
-                        }
-                    });
-                }
-            });
-    }
-
-
-
-
-
-
-    // FUNCTION 2: Posting a new howl
-    function createHowl() {
-
-        // the text area with the message
-        const textArea = document.querySelector('.howl-input');
-        
-        // STEP 1: Get the message
-        const howlText = textArea.value.trim();
-        if (howlText === '') 
-            return;
-
-        // STEP 2: Call POST /howls with body
         fetch('/api/howls', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ text: howlText })
+            body: JSON.stringify({ text: trimmedText })
         })
-
-        // STEP 3: Turn the response to JSON
         .then(response => response.json())
-
-        // STEP 4: Put the new howl at the top
         .then(newHowl => {
-            textArea.value = '';
-            const howlJSON = {
+            setHowlText('');
+            onNewHowl({
                 userId: newHowl.userId,
                 text: newHowl.text,
                 datetime: newHowl.datetime
-            };
-            displayHowls([howlJSON], true);
+            });
         })
         .catch(error => console.error('Error:', error));
-    }
+    };
 
+    return (
+        <div className="whats-howling">
+            <div className="input-area">
+                <textarea 
+                    className="howl-input" 
+                    placeholder="What's howling?"
+                    value={howlText}
+                    onChange={(e) => setHowlText(e.target.value)}
+                />
+                <button className="howl-button" onClick={createHowl}>
+                    Howl
+                </button>
+            </div>
+        </div>
+    );
+};
 
-
-
-
-    // FUNCTION 3: Formatting the date, called from displayHowls
-    function formatDate(dateString) {
-        // 2020-09-09T22:17:44Z
-        // Wed Sep 09 2020 18:17:44 GMT-0400 (Eastern Daylight Time)
+const Howl = ({ howl, user }) => {
+    const formatDate = (dateString) => {
         const date = new Date(dateString);
         const month = date.toLocaleString('default', { month: 'short' });
         const day = date.getDate();
@@ -127,38 +77,95 @@ document.addEventListener('DOMContentLoaded', () => {
         const pm = hour >= 12 ? 'pm' : 'am';
         
         return `${month} ${day}, ${year} ${newHour}:${newMinute}${pm}`;
-    }
+    };
 
+    if (!user) return null;
 
+    return (
+        <div className="howl">
+            <div 
+                className="howl-header" 
+                onClick={() => window.location.href=`/user/${user.username}`}
+            >
+                <img src={user.avatar} alt={`${user.username} PFP`} className="avatar" />
+                <div className="user-info">
+                    <span className="name">{user.first_name} {user.last_name} </span>
+                    <span className="handle">@{user.username}</span>
+                </div>
+                <span className="time">{formatDate(howl.datetime)}</span>
+            </div>
+            <p className="howl-message">{howl.text}</p>
+        </div>
+    );
+};
 
+const HowlsList = ({ howls, users }) => {
+    return (
+        <div className="howls-list">
+            {howls.map((howl, index) => (
+                <Howl 
+                    key={howl.id || index} 
+                    howl={howl} 
+                    user={users[howl.userId]}
+                />
+            ))}
+        </div>
+    );
+};
 
+const App = () => {
+    const [currentUser, setCurrentUser] = React.useState(null);
+    const [howls, setHowls] = React.useState([]);
+    const [users, setUsers] = React.useState({});
 
-    // PART 2: Get the user's initial following feed
-    fetch('/api/users/current')
-        // Step 1: Save the current user
-        .then(response => response.json())
-        .then(currentUser => {
-            // Update navbar with current user info
-            document.querySelector('.your-handle').textContent = `@${currentUser.username}`;
-            document.querySelector('.user-profile img').src = currentUser.avatar;
+    React.useEffect(() => {
+        // Get current user and their following feed
+        fetch('/api/users/current')
+            .then(response => response.json())
+            .then(user => {
+                setCurrentUser(user);
+                setUsers(prev => {
+                    const newUsers = {...prev};
+                    newUsers[user.id] = user;
+                    return newUsers;
+                });
+                return fetch('/api/howls/following');
+            })
+            .then(response => response.json())
+            .then(howlsData => {
+                setHowls(howlsData);
+                // Fetch user data for each howl
+                return Promise.all(
+                    howlsData.map(howl => 
+                        fetch(`/api/users/${howl.userId}`)
+                            .then(response => response.json())
+                    )
+                );
+            })
+            .then(usersData => {
+                const newUsers = {...users};
+                usersData.forEach(user => {
+                    newUsers[user.id] = user;
+                });
+                setUsers(newUsers);
+            })
+            .catch(error => console.error('Error:', error));
+    }, []);
 
-            // make the user profile clickable
-            const userProfile = document.querySelector('.user-profile');
-            userProfile.onclick = () => window.location.href = `/user/${currentUser.username}`;
-            
-            // Get howls from people the user follows
-            return fetch('/api/howls/following');
-        })
-        // Step 2: Save the feed of the current user
-        .then(response => response.json())
-        .then(howls => {
-            displayHowls(howls);
-        })
-        .catch(error => console.error('Error:', error));
+    const handleNewHowl = (newHowl) => {
+        setHowls(prevHowls => [newHowl, ...prevHowls]);
+    };
 
+    return (
+        <div>
+            <Navbar currentUser={currentUser} />
+            <main>
+                <WhatsHowling onNewHowl={handleNewHowl} />
+                <HowlsList howls={howls} users={users} />
+            </main>
+        </div>
+    );
+};
 
-
-        
-    // Add event listener for the Howl button
-    document.querySelector('.howl-button').addEventListener('click', createHowl);
-});
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);

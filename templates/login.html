@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,38 +7,16 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="../static/css/login.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
-
 <body>
-    <!-- PART 1: Navbar -->
-    <nav class="navbar sticky-top">
-        <h1 class="howler navbar-brand mb-2 text-white">Howler</h1>
-        <div class="user-profile">
-            <!-- <span class="your-handle">@student</span>
-            <img src="../static/images/student-pfp.jpg" alt="Student PFP" class="avatar"> -->
-        </div>
-    </nav>
-
-    <main>
-        <!-- PART 2: Login form -->
-        <div class="login-container">
-            <h2 class="login-header fw-bold">Log in</h2>
-            <form class="login-form" id="loginForm">
-                <div class="form-group">
-                    <label for="username fw-bold">Username</label>
-                    <input type="text" id="username" class="login-input" placeholder="Enter your username" required>
-                </div>
-                <!-- <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="login-input" placeholder="Enter your password">
-                </div> -->
-                <button type="submit" class="login-button">Log In</button>
-                <p id="errorMessage"></p>
-            </form>
-        </div>
-    </main>
+    <div id="root"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script type="text/babel" src="../static/js/login.js"></script>
 </body>
-<script src="../static/js/login.js"></script>
-
 </html>

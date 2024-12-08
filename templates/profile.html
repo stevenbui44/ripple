@@ -7,67 +7,16 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="../static/css/profile.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 <body>
-    <!-- PART 1: Navbar -->
-    <nav class="navbar sticky-top">
-        <h1 class="howler navbar-brand mb-2 text-white" onclick="window.location.href='/'">Howler</h1>
-        <div class="user-profile ">
-            <span class="your-handle"></span>
-            <img src="#" alt="Current User PFP" class="avatar">
-        </div>
-    </nav>
-
-    <main>
-        <!-- PART 2: THEIR username and follow button -->
-        <div class="profile-header">
-            <!-- 2.1: left side -->
-            <div class="profile-info">
-                <img src="#" alt="User PFP" class="profile-avatar">
-                <div class="profile-left-side">
-                    <h2 class="profile-name"></h2>
-                    <span class="profile-handle"></span>
-                </div>
-            </div>
-            <!-- 2.2: right side -->
-            <button class="follow-button">Follow</button>
-        </div>
-
-        <!-- PART 3: Following list -->
-        <div class="follows-section">
-            <h3 class="follows-header">Follows:</h3>
-            <div class="follows-list">
-
-                <div class="follow-account">
-                    <img src="#" alt="Following PFP" class="avatar">
-                    <div class="follow-info">
-                        <span class="name"></span>
-                        <span class="handle"></span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-
-        <!-- PART 4: List of howls -->
-        <h2 class="howls-header">Howls</h2>
-
-        <!-- <div class="howl">
-            <div class="howl-header">
-                <img src="#" alt="Their PFP" class="avatar">
-                <div class="user-info">
-                    <span class="name"></span>
-                    <span class="handle"></span>
-                </div>
-                <span class="time"></span>
-            </div>
-            <p class="howl-message"></p>
-        </div> -->
-
-        
-    </main>
+    <div id="root"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script type="text/babel" src="../static/js/profile.js"></script>
 </body>
-<script src="../static/js/profile.js"></script>
-
 </html>

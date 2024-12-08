@@ -1,138 +1,119 @@
-document.addEventListener('DOMContentLoaded', () => {
+const Navbar = ({ currentUser }) => {
+    if (!currentUser) return null;
 
-    // the URL username
-    const username = window.location.pathname.split('/')[2];
-    // user logged in
-    let currentUser = null;
-    // user of the page being looked at 
-    let profileUser = null;
+    return (
+        <nav className="navbar sticky-top">
+            <h1 
+                className="howler navbar-brand mb-2 text-white" 
+                onClick={() => window.location.href='/'}
+            >
+                Howler
+            </h1>
+            <div 
+                className="user-profile"
+                onClick={() => window.location.href = `/user/${currentUser.username}`}
+            >
+                <span className="your-handle">@{currentUser.username}</span>
+                <img src={currentUser.avatar} alt="Current User PFP" className="avatar" />
+            </div>
+        </nav>
+    );
+};
 
-    
-    // FUNCTION 1: Showing all howls
-    // howls:
-    // {
-    //     "id": 1,
-    //     "userId": 7,
-    //     "datetime": "2020-05-29T03:50:25Z",
-    //     "text": "Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat."
-    // },
-    function displayHowls(howls) {
+const ProfileHeader = ({ profileUser, currentUser, onFollowUpdate }) => {
+    const [isFollowing, setIsFollowing] = React.useState(false);
 
-        // posting everything after howls-header
-        const howlsHeader = document.querySelector('.howls-header');
-        
-        // Function to process each howl
-        const processHowl = (howl) => {
-            return fetch(`/api/users/${howl.userId}`)
+    React.useEffect(() => {
+        if (currentUser && profileUser) {
+            fetch(`/api/users/${currentUser.id}/following`)
                 .then(response => response.json())
-                .then(user => {
-                    const howlTemplate = document.createElement('div');
-                    howlTemplate.className = 'howl';
-                    howlTemplate.innerHTML = `
-                        <div class="howl-header" onclick="window.location.href='/user/${user.username}'">
-                            <img src="${user.avatar}" alt="${user.username} PFP" class="avatar">
-                            <div class="user-info">
-                                <span class="name">${user.first_name} ${user.last_name}</span>
-                                <span class="handle">@${user.username}</span>
-                            </div>
-                            <span class="time">${formatDate(howl.datetime)}</span>
-                        </div>
-                        <p class="howl-message">${howl.text}</p>
-                    `;
-                    return howlTemplate;
+                .then(following => {
+                    setIsFollowing(following.includes(profileUser.id));
                 });
-        };
-
-        // Process all howls and add them to the page
-        Promise.all(howls.map(processHowl))
-            .then(howlTemplates => {
-
-                // CASE ONE: Adding new howls at the TOP
-                howlTemplates.forEach(element => {
-                    // if something after howlsHeader, put it before that
-                    if (howlsHeader.nextSibling) {
-                        howlsHeader.parentNode.insertBefore(element, howlsHeader.nextSibling);
-                    } 
-                    else {
-                        howlsHeader.parentNode.appendChild(element);
-                    }
-                });
-
-                // There are no other cases lol
-            });
-    }
-
-
-
-    // FUNCTION 2: Updating how the Follow button LOOKS ONLY
-    function updateFollowButton() {
-
-        // if this is your profile, hide the follow button
-        const followButton = document.querySelector('.follow-button');
-        if (currentUser.id === profileUser.id) {
-            followButton.style.display = 'none';
-            return;
         }
+    }, [currentUser, profileUser]);
 
-        // get a specific user's following list 
-        fetch(`/api/users/${currentUser.id}/following`)
-            .then(response => response.json())
-            .then(following => {
-                // making an isFollowing variable
-                const isFollowing = following.includes(profileUser.id);
-                followButton.textContent = isFollowing ? 'Unfollow' : 'Follow';
-                followButton.onclick = () => handleFollowClick(isFollowing);
-            });
-    }
-
-    // FUNCTION 3: Handling LOGIC behind following/unfollowing
-    function handleFollowClick(isFollowing) {
-        // isFollowing = you should unfollow
+    const handleFollowClick = () => {
         const action = isFollowing ? 'unfollow' : 'follow';
         fetch(`/api/users/${profileUser.id}/${action}`, {
             method: 'POST'
         })
         .then(response => response.json())
-        .then(() => updateFollowButton());
-    }
+        .then(() => {
+            setIsFollowing(!isFollowing);
+            if (onFollowUpdate) onFollowUpdate();
+        });
+    };
 
-    // FUNCTION 4: Displaying the user's follwoing list
-    function displayFollowing() {
-        // Step 1: Get their following
-        fetch(`/api/users/${profileUser.id}/following`)
-            .then(response => response.json())
-            .then(following => {
-                const followsList = document.querySelector('.follows-list');
-                followsList.innerHTML = '';
+    if (!profileUser || !currentUser) return null;
 
-                // Step 2: Make the HTML for EACH user in the following
-                Promise.all(following.map(userId => 
-                    fetch(`/api/users/${userId}`).then(res => res.json())
-                )).then(users => {
-                    users.forEach(user => {
-                        const followAccount = document.createElement('div');
-                        followAccount.className = 'follow-account';
-                        followAccount.innerHTML = `
-                            <img src="${user.avatar}" alt="${user.username} PFP" class="avatar">
-                            <div class="follow-info">
-                                <span class="name">${user.first_name} ${user.last_name}</span>
-                                <span class="handle">@${user.username}</span>
-                            </div>
-                        `;
-                        // you can redirect to that user account
-                        followAccount.onclick = () => window.location.href = `/user/${user.username}`;
-                        followsList.appendChild(followAccount);
-                    });
-                });
-            });
-    }
+    return (
+        <div className="profile-header">
+            <div className="profile-info">
+                <img src={profileUser.avatar} alt="User PFP" className="profile-avatar" />
+                <div className="profile-left-side">
+                    <h2 className="profile-name">
+                        {profileUser.first_name} {profileUser.last_name}
+                    </h2>
+                    <span className="profile-handle">@{profileUser.username}</span>
+                </div>
+            </div>
+            {currentUser.id !== profileUser.id && (
+                <button 
+                    className="follow-button"
+                    onClick={handleFollowClick}
+                >
+                    {isFollowing ? 'Unfollow' : 'Follow'}
+                </button>
+            )}
+        </div>
+    );
+};
 
+const FollowingList = ({ profileUser }) => {
+    const [following, setFollowing] = React.useState([]);
 
+    React.useEffect(() => {
+        if (profileUser) {
+            fetch(`/api/users/${profileUser.id}/following`)
+                .then(response => response.json())
+                .then(followingIds => {
+                    return Promise.all(
+                        followingIds.map(userId => 
+                            fetch(`/api/users/${userId}`).then(res => res.json())
+                        )
+                    );
+                })
+                .then(users => setFollowing(users));
+        }
+    }, [profileUser]);
 
-    // FUNCTION 5: Formatting the date, called from displayHowls
-    function formatDate(dateString) {
-        // 2020-09-09T22:17:44Z
-        // Wed Sep 09 2020 18:17:44 GMT-0400 (Eastern Daylight Time)
+    if (!profileUser) return null;
+
+    return (
+        <div className="follows-section">
+            <h3 className="follows-header">Follows:</h3>
+            <div className="follows-list">
+                {following.map(user => (
+                    <div 
+                        key={user.id}
+                        className="follow-account"
+                        onClick={() => window.location.href = `/user/${user.username}`}
+                    >
+                        <img src={user.avatar} alt={`${user.username} PFP`} className="avatar" />
+                        <div className="follow-info">
+                            <span className="name">{user.first_name} {user.last_name}</span>
+                            <span className="handle">@{user.username}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const Howl = ({ howl, user }) => {
+    const formatDate = (dateString) => {
         const date = new Date(dateString);
         const month = date.toLocaleString('default', { month: 'short' });
         const day = date.getDate();
@@ -144,46 +125,122 @@ document.addEventListener('DOMContentLoaded', () => {
         const pm = hour >= 12 ? 'pm' : 'am';
         
         return `${month} ${day}, ${year} ${newHour}:${newMinute}${pm}`;
-    }
+    };
+
+    // Don't render if we don't have user data yet
+    if (!user) return null;
+
+    return (
+        <div className="howl">
+            <div 
+                className="howl-header" 
+                onClick={() => window.location.href=`/user/${user.username}`}
+            >
+                <img src={user.avatar} alt={`${user.username} PFP`} className="avatar" />
+                <div className="user-info">
+                    <span className="name">{user.first_name} {user.last_name}</span>
+                    <span className="handle">@{user.username}</span>
+                </div>
+                <span className="time">{formatDate(howl.datetime)}</span>
+            </div>
+            <p className="howl-message">{howl.text}</p>
+        </div>
+    );
+};
 
 
+const HowlsList = ({ profileUser }) => {
+    const [howls, setHowls] = React.useState([]);
+    const [users, setUsers] = React.useState({});
 
+    React.useEffect(() => {
+        if (profileUser) {
+            fetch(`/api/users/${profileUser.id}/howls`)
+                .then(response => response.json())
+                .then(howlsData => {
+                    // Original howls order
+                    setHowls(howlsData.reverse());  // Reverse to match original order
+                    const uniqueUserIds = [...new Set(howlsData.map(h => h.userId))];
+                    return Promise.all(
+                        uniqueUserIds.map(userId =>
+                            fetch(`/api/users/${userId}`).then(res => res.json())
+                        )
+                    );
+                })
+                .then(usersData => {
+                    const newUsers = {};
+                    usersData.forEach(user => {
+                        newUsers[user.id] = user;
+                    });
+                    setUsers(newUsers);
+                });
+        }
+    }, [profileUser]);
 
-    // PART 2: Get the user's initial following feed
-    fetch('/api/users/current')
-    // Step 1: Save the current user
-    .then(response => response.json())
-    .then(user => {
-        currentUser = user;
-        // Update navbar with current user info
-        document.querySelector('.your-handle').textContent = `@${currentUser.username}`;
-        document.querySelector('.user-profile img').src = currentUser.avatar;
-        // make the user profile clickable
-        const userProfile = document.querySelector('.user-profile');
-        userProfile.onclick = () => window.location.href = `/user/${currentUser.username}`;
+    if (!profileUser) return null;
 
-        // Get the user of the page being looked at
-        return fetch(`/api/users/username/${username}`);
-    })
-    // Step 2: Save the user of the page being looked at
-    .then(response => response.json())
-    .then(user => {
-        profileUser = user;
-        document.querySelector('.profile-avatar').src = profileUser.avatar;
-        document.querySelector('.profile-name').textContent = `${profileUser.first_name} ${profileUser.last_name}`;
-        document.querySelector('.profile-handle').textContent = `@${profileUser.username}`;
+    return (
+        <div className="howls-container">
+            <h2 className="howls-header">Howls</h2>
+            {howls.map(howl => (
+                <Howl 
+                    key={howl.id || Math.random()} 
+                    howl={howl} 
+                    user={users[howl.userId]}
+                />
+            ))}
+        </div>
+    );
+};
 
-        updateFollowButton();
-        displayFollowing();
+const App = () => {
+    const [currentUser, setCurrentUser] = React.useState(null);
+    const [profileUser, setProfileUser] = React.useState(null);
+    const username = window.location.pathname.split('/')[2];
 
-        // Get their HOWLS next
-        return fetch(`/api/users/${profileUser.id}/howls`);
-    })
-    // Step 3: Get the user's howls
-    .then(response => response.json())
-    .then(howls => {
-        displayHowls(howls);
-    })
-    .catch(error => console.error('Error:', error));
+    React.useEffect(() => {
+        // Get current user and profile user data
+        fetch('/api/users/current')
+            .then(response => response.json())
+            .then(user => {
+                setCurrentUser(user);
+                return fetch(`/api/users/username/${username}`);
+            })
+            .then(response => response.json())
+            .then(user => {
+                setProfileUser(user);
+            })
+            .catch(error => console.error('Error:', error));
+    }, [username]);
 
-});
+    const handleFollowUpdate = () => {
+        // Refresh following list when follow status changes
+        if (profileUser) {
+            fetch(`/api/users/username/${username}`)
+                .then(response => response.json())
+                .then(user => {
+                    setProfileUser(user);
+                });
+        }
+    };
+
+    if (!currentUser || !profileUser) return null;
+
+    return (
+        <div>
+            <Navbar currentUser={currentUser} />
+            <main>
+                <ProfileHeader 
+                    profileUser={profileUser} 
+                    currentUser={currentUser} 
+                    onFollowUpdate={handleFollowUpdate}
+                />
+                <FollowingList profileUser={profileUser} />
+                <HowlsList profileUser={profileUser} />
+            </main>
+        </div>
+    );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
