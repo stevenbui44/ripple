@@ -8,7 +8,7 @@ const Navbar = ({ currentUser }) => {
                 className="howler navbar-brand mb-2 text-white" 
                 onClick={() => window.location.href='/'}
             >
-                Howler
+                Ripple
             </h1>
             <div 
                 className="user-profile d-flex"

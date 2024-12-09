@@ -1,7 +1,7 @@
 const Navbar = () => {
     return (
         <nav className="navbar sticky-top">
-            <h1 className="howler navbar-brand mb-2 text-white">Howler</h1>
+            <h1 className="howler navbar-brand mb-2 text-white">Ripple</h1>
             <div className="user-profile">
                 {/* <span className="your-handle">@student</span>
                 <img src="../static/images/student-pfp.jpg" alt="Student PFP" className="avatar" /> */}

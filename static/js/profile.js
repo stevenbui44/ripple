@@ -7,7 +7,7 @@ const Navbar = ({ currentUser }) => {
                 className="howler navbar-brand mb-2 text-white" 
                 onClick={() => window.location.href='/'}
             >
-                Howler
+                Ripple
             </h1>
             <div 
                 className="user-profile"
@@ -181,7 +181,7 @@ const HowlsList = ({ profileUser }) => {
 
     return (
         <div className="howls-container">
-            <h2 className="howls-header">Howls:</h2>
+            <h2 className="howls-header">Posts:</h2>
             {howls.map(howl => (
                 <Howl 
                     key={howl.id || Math.random()} 
