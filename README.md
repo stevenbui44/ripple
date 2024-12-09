@@ -1,5 +1,41 @@
-# <img src="../images/MP4.svg" alt="" width="35" height="36" style="vertical-align: bottom"> Mini Project 4
+# Ripple
 
-1. One challenge that I encountered when implementing Howler was that trying to figure out how to display the howls in reverse chronological order, and this was an issue because I knew that there were 2 cases that I had to consider: displaying the existing howls in howls.json, and displaying new howls that a user may create. I was planning on just making it so that we would first load the howls in howls.json and then have a new section for displaying newly created howls, but then I realized that posting a new howl would push it to the howlsDAO.js anyway and that our JS file would make a fetch call to get all of the user's howls anyway, so it just made more sense to go through each howl and append them to the top instead of accounting for these 2 cases separately.
+## Features
 
-2. There are many features that we could add to a social network app, but one that I think would be useful to have is an option to hide specific howls that you do not want on your feed. To implement this, I know that howls are saved in howls.json with their own IDs, so for my implementation, I could probably have a route in routes.js to get a specific howl by its ID (which would also require creating that promise in howlsDAO.js), and then we could probably implement some JS in main.js to not display specific howls (as opposed to deleting a howl, since we don't want to delete them, just hide them).
+- **User Authentication**: Secure user login functionality with Express middleware and cookie-based session management for resource access control
+- **Client-Side Dynamic Loading**: Uses JavaScript DOM manipulation to dynamically load user feeds and profiles
+- **Profile Management**: Allows users to view others' and their own profiles with their following and posts
+- **Social Networking**: Allows users to follow/unfollow other accounts and see their posts
+- **Content Creation**: Allows users to post messages that are immediately displayed in their followers' feeds
+- **Data Persistence**: Implements DAO pattern using JavaScript and JSON files, with Promises for asynchronous operations
+- **REST API Architecture**: Provides REST endpoints for content management and social interactions
+- **Docker Containerization**: Packages application into Docker containers for consistent deployment
+
+## Tech Stack
+
+- **Backend**: Node.js, Express.js
+- **Frontend**: JavaScript, ReactJS, HTML, CSS, Bootstrap
+- **Deployment**: Docker
+
+## Installation
+
+1. Ensure that you have the following prerequisites installed:
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+
+2.  Clone the repository:
+```
+git clone https://github.com/stevenbui44/ripple.git
+```
+
+3. Install dependencies
+```
+npm install
+```
+
+4. Run the application
+```
+npm start
+```
+
+## Usage
