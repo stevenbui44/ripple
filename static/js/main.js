@@ -52,12 +52,12 @@ const WhatsHowling = ({ onNewHowl }) => {
             <div className="input-area">
                 <textarea 
                     className="howl-input" 
-                    placeholder="What's howling?"
+                    placeholder="What's happening?"
                     value={howlText}
                     onChange={(e) => setHowlText(e.target.value)}
                 />
                 <button className="howl-button" onClick={createHowl}>
-                    Howl
+                    Post
                 </button>
             </div>
         </div>

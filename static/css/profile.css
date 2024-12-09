@@ -57,6 +57,7 @@
     padding: 15px;
     border-bottom: 2px solid #ddd;
     font-weight: bold;
+    font-size: 20px;
 }
 
 .follows-list {
@@ -81,8 +82,10 @@
 
 /* 'Howls' header */
 .howls-header {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 20px;
+    font-weight: bold;
+
 }
 
 .user-profile:hover {

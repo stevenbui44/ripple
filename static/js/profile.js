@@ -138,7 +138,7 @@ const Howl = ({ howl, user }) => {
             >
                 <img src={user.avatar} alt={`${user.username} PFP`} className="avatar" />
                 <div className="user-info">
-                    <span className="name">{user.first_name} {user.last_name}</span>
+                    <span className="name">{user.first_name} {user.last_name} </span>
                     <span className="handle">@{user.username}</span>
                 </div>
                 <span className="time">{formatDate(howl.datetime)}</span>
@@ -181,7 +181,7 @@ const HowlsList = ({ profileUser }) => {
 
     return (
         <div className="howls-container">
-            <h2 className="howls-header">Howls</h2>
+            <h2 className="howls-header">Howls:</h2>
             {howls.map(howl => (
                 <Howl 
                     key={howl.id || Math.random()} 
