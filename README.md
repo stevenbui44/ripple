@@ -1,5 +1,3 @@
-# Ripple
-
 ## Features
 
 - **User Authentication**: Secure user login functionality with Express middleware and cookie-based session management for resource access control
@@ -39,3 +37,16 @@ npm start
 ```
 
 ## Usage
+
+1. Log in to use the platform
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/dc3225db-eab6-40fc-aa6a-77f1af425f57">
+
+2. Post a message!
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/a9cac9a6-a717-4148-9c22-2b2a9a1a6e3b">
+
+3. Check out your own profile!
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/67259e06-f97a-4434-bd7a-66c7c252fd94">
+
+4. Check out other people's profiles and follow them!
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/7619c9be-ee0b-4c59-beaa-5e9d6fee47fc">
+
